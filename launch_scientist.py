@@ -204,6 +204,11 @@ def do_idea(
             main_model = Model("deepseek/deepseek-reasoner")
         elif model == "llama3.1-405b":
             main_model = Model("openrouter/meta-llama/llama-3.1-405b-instruct")
+        elif model.startswith(("claudecli-", "local-")):
+            from llm_runtimes import ensure_server
+            os.environ["OPENAI_API_BASE"] = ensure_server()
+            os.environ.setdefault("OPENAI_API_KEY", "llm-runtimes")
+            main_model = Model(f"openai/{model}")
         else:
             main_model = Model(model)
         coder = Coder.create(
@@ -240,6 +245,11 @@ def do_idea(
                 main_model = Model("deepseek/deepseek-reasoner")
             elif model == "llama3.1-405b":
                 main_model = Model("openrouter/meta-llama/llama-3.1-405b-instruct")
+            elif model.startswith(("claudecli-", "local-")):
+                from llm_runtimes import ensure_server
+                os.environ["OPENAI_API_BASE"] = ensure_server()
+                os.environ.setdefault("OPENAI_API_KEY", "llm-runtimes")
+                main_model = Model(f"openai/{model}")
             else:
                 main_model = Model(model)
             coder = Coder.create(

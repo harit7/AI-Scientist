@@ -560,6 +560,11 @@ if __name__ == "__main__":
         main_model = Model("deepseek/deepseek-coder")
     elif args.model == "llama3.1-405b":
         main_model = Model("openrouter/meta-llama/llama-3.1-405b-instruct")
+    elif model.startswith(("claudecli-", "local-")):
+        from llm_runtimes import ensure_server
+        os.environ["OPENAI_API_BASE"] = ensure_server()
+        os.environ.setdefault("OPENAI_API_KEY", "llm-runtimes")
+        main_model = Model(f"openai/{model}")
     else:
         main_model = Model(model)
     coder = Coder.create(
