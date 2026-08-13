@@ -280,7 +280,7 @@ def on_backoff(details):
 
 
 @backoff.on_exception(
-    backoff.expo, requests.exceptions.HTTPError, on_backoff=on_backoff
+    backoff.expo, requests.exceptions.HTTPError, on_backoff=on_backoff, max_time=90
 )
 def search_for_papers(query, result_limit=10, engine="semanticscholar") -> Union[None, List[Dict]]:
     if not query:
